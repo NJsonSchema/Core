@@ -25,7 +25,7 @@
 [System.Obsolete{% if HasDeprecatedMessage %}({{ DeprecatedMessage | literal }}){% endif %}]
 {% endif -%}
 {% template Class.Annotations %}
-{{ TypeAccessModifier }} {% if IsAbstract %}abstract {% endif %}partial class {{ClassName}} {% template Class.Inheritance %}
+{{ TypeAccessModifier }} {% if IsAbstract %}abstract {% endif %}partial {{ClassType}} {{ClassName}} {% template Class.Inheritance %}
 {
 {% if IsTuple -%}
     public {{ ClassName }}({% for tupleType in TupleTypes -%}{{ tupleType }} item{{ forloop.index }}{% if forloop.last == false %}, {% endif %}{% endfor -%}) : base({% for tupleType in TupleTypes -%}item{{ forloop.index }}{% if forloop.last == false %}, {% endif %}{% endfor -%})
@@ -92,7 +92,7 @@
     [System.Obsolete{% if property.HasDeprecatedMessage %}({{ property.DeprecatedMessage | literal }}){% endif %}]
 {%   endif -%}
     {% template Class.Property.Annotations %}
-    public {{ property.Type }} {{ property.PropertyName }}{% if RenderInpc == false and RenderPrism == false %} { get; {% if property.HasSetter and RenderRecord == false %}set; {% endif %}}{% if property.HasDefaultValue and RenderRecord == false %} = {{ property.DefaultValue }};{% elsif GenerateNullableReferenceTypes and RenderRecord == false -%} = default!;{% endif %}
+    public {{ property.Type }} {{ property.PropertyName }}{% if RenderInpc == false and RenderPrism == false %} { get; {% if property.HasSetter and RenderRecord == false %}set; {% endif %}{% if property.HasSetter and GenerateInitProperties %}init; {% endif %}}{% if property.HasDefaultValue and RenderRecord == false %} = {{ property.DefaultValue }};{% elsif GenerateNullableReferenceTypes and RenderRecord == false -%} = default!;{% endif %}
 {% else %}
     {
         get { return {{ property.FieldName }}; }

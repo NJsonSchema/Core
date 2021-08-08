@@ -10,11 +10,19 @@
     <None Remove="References\Animal.json" />
     <None Remove="References\B.json" />
     <None Remove="References\C.json" />
+    <None Remove="References\Car.json" />
     <None Remove="References\D.json" />
     <None Remove="References\E.json" />
+    <None Remove="References\Vehicle.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="References\A.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="References\Car.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="References\Vehicle.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="References\Animal.json">

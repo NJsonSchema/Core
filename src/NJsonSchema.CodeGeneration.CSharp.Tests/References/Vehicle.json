@@ -1,0 +1,12 @@
+{
+    "title": "Vehicle",
+    "type": "object",
+    "x-abstract": true,
+    "description": "This is a vehicle",
+    "properties": {
+        "id": {
+            "type": "string",
+            "description": "This is the ID of Vehicle"
+        }
+    }
+}

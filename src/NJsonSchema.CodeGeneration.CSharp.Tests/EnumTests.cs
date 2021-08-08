@@ -190,7 +190,7 @@ namespace NJsonSchema.CodeGeneration.Tests.CSharp
         [Fact]
         public async Task When_type_name_hint_has_generics_then_they_are_converted()
         {
-            /// Arrange
+            //// Arrange
             var json = @"
 {
     ""properties"": {
@@ -215,7 +215,7 @@ namespace NJsonSchema.CodeGeneration.Tests.CSharp
         }
     }
 }";
-            /// Act
+            //// Act
             var schema = await JsonSchema.FromJsonAsync(json);
 
             var settings = new CSharpGeneratorSettings();
@@ -223,7 +223,7 @@ namespace NJsonSchema.CodeGeneration.Tests.CSharp
 
             var code = generator.GenerateFile("Foo");
 
-            /// Assert
+            //// Assert
             Assert.Contains("public enum FirstMetdodOfMetValueGroupChar", code);
         }
 
@@ -293,7 +293,7 @@ namespace NJsonSchema.CodeGeneration.Tests.CSharp
                 }
             }";
 
-            /// Act
+            //// Act
             var schema = await JsonSchema.FromJsonAsync(json);
 
             var settings = new CSharpGeneratorSettings();
@@ -301,7 +301,7 @@ namespace NJsonSchema.CodeGeneration.Tests.CSharp
 
             var code = generator.GenerateFile("Foo");
 
-            /// Assert
+            //// Assert
             Assert.DoesNotContain("__", code);
             Assert.Contains("Eq = 0", code);
 
@@ -330,7 +330,7 @@ namespace NJsonSchema.CodeGeneration.Tests.CSharp
                 }
             }";
 
-            /// Act
+            //// Act
             var schema = await JsonSchema.FromJsonAsync(json);
 
             var settings = new CSharpGeneratorSettings();
@@ -338,7 +338,7 @@ namespace NJsonSchema.CodeGeneration.Tests.CSharp
 
             var code = generator.GenerateFile("Foo");
 
-            /// Assert
+            //// Assert
             Assert.DoesNotContain("__", code);
             Assert.Contains("MinusFoo = 0", code);
             Assert.Contains("PlusFoo = 1", code);
@@ -348,7 +348,7 @@ namespace NJsonSchema.CodeGeneration.Tests.CSharp
         [Fact]
         public async Task When_array_item_enum_is_not_referenced_then_type_name_hint_is_property_name()
         {
-            /// Arrange
+            //// Arrange
             var json = @"
 {
     ""properties"": {
@@ -382,7 +382,7 @@ namespace NJsonSchema.CodeGeneration.Tests.CSharp
         }
     }
 }";
-            /// Act
+            //// Act
             var schema = await JsonSchema.FromJsonAsync(json);
 
             var settings = new CSharpGeneratorSettings();
@@ -390,7 +390,7 @@ namespace NJsonSchema.CodeGeneration.Tests.CSharp
 
             var code = generator.GenerateFile("Foo");
 
-            /// Assert
+            //// Assert
             Assert.DoesNotContain("public enum Anonymous", code);
             Assert.Contains("public enum Status", code);
         }

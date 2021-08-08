@@ -17,15 +17,15 @@ namespace NJsonSchema.CodeGeneration.TypeScript.Tests
         [Fact]
         public async Task When_class_is_abstract_then_is_abstract_TypeScript_keyword_is_generated()
         {
-            /// Arrange
+            //// Arrange
             var schema = JsonSchema.FromType<AbstractClass>();
             var json = schema.ToJson();
 
-            /// Act
+            //// Act
             var generator = new TypeScriptGenerator(schema, new TypeScriptGeneratorSettings { TypeScriptVersion = 2.0m });
             var code = generator.GenerateFile("AbstractClass");
 
-            /// Assert
+            //// Assert
             Assert.Contains("export abstract class AbstractClass", code);
 
             Assert.Contains("base: string", code);
@@ -42,15 +42,15 @@ namespace NJsonSchema.CodeGeneration.TypeScript.Tests
         [Fact]
         public async Task When_property_is_required_and_abstract_then_it_is_not_instantiated()
         {
-            /// Arrange
+            //// Arrange
             var schema = JsonSchema.FromType<ContainerClass>();
             var json = schema.ToJson();
 
-            /// Act
+            //// Act
             var generator = new TypeScriptGenerator(schema, new TypeScriptGeneratorSettings { TypeScriptVersion = 2.0m });
             var code = generator.GenerateFile("ContainerClass");
 
-            /// Assert
+            //// Assert
             Assert.Contains("foo: AbstractClass", code);
             Assert.Contains("this.foo = _data[\"Foo\"] ? AbstractClass.fromJS(_data[\"Foo\"]) : <any>undefined;", code);
         }
@@ -71,14 +71,14 @@ namespace NJsonSchema.CodeGeneration.TypeScript.Tests
         [Fact]
         public async Task When_abstract_class_is_in_inheritance_hierarchy_then_it_is_newer_instantiated()
         {
-            /// Arrange
+            //// Arrange
             var schema = JsonSchema.FromType<AbstractClass>();
 
-            /// Act
+            //// Act
             var generator = new TypeScriptGenerator(schema, new TypeScriptGeneratorSettings { TypeScriptVersion = 2.0m });
             var code = generator.GenerateFile("AbstractClass");
 
-            /// Assert
+            //// Assert
             Assert.DoesNotContain("new AbstractClass();", code);
         }
     }

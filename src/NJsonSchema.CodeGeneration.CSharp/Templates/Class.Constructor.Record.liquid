@@ -5,8 +5,13 @@
 {% assign parentProperties = "" | empty -%}
 {% endif %}
 
+{% if SortConstructorParameters %}
 {% assign sortedProperties = AllProperties | sort: "Name" -%}
 {% assign sortedParentProperties = parentProperties | sort: "Name" -%}
+{% else %}
+{% assign sortedProperties = AllProperties -%}
+{% assign sortedParentProperties = parentProperties -%}
+{% endif %}
 
 {% if UseSystemTextJson -%}
 [System.Text.Json.Serialization.JsonConstructor]

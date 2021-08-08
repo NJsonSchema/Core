@@ -42,7 +42,7 @@ namespace NJsonSchema.CodeGeneration.CSharp.Models
             if (schema.InheritedSchema != null)
             {
                 BaseClass = new ClassTemplateModel(BaseClassName, settings, resolver, schema.InheritedSchema, rootObject);
-                AllProperties = Properties.Concat(BaseClass.AllProperties).ToArray();
+                AllProperties = BaseClass.AllProperties.Concat(Properties).ToArray();
             }
             else
             {
@@ -100,7 +100,12 @@ namespace NJsonSchema.CodeGeneration.CSharp.Models
         public bool RenderPrism => _settings.ClassStyle == CSharpClassStyle.Prism;
 
         /// <summary>Gets a value indicating whether the class style is Record.</summary>
-        public bool RenderRecord => _settings.ClassStyle == CSharpClassStyle.Record;
+        public bool RenderRecord => _settings.ClassStyle == CSharpClassStyle.Record ||
+                                    _settings.ClassStyle == CSharpClassStyle.CSharpRecord;
+
+        /// <summary>Gets the class type.</summary>
+        public string ClassType => _settings.ClassStyle == CSharpClassStyle.CSharpRecord ?
+                                    "record" : "class";
 
         /// <summary>Gets a value indicating whether to render ToJson() and FromJson() methods.</summary>
         public bool GenerateJsonMethods => _settings.GenerateJsonMethods;
@@ -121,6 +126,13 @@ namespace NJsonSchema.CodeGeneration.CSharp.Models
 
         /// <summary>Gets a value indicating whether the class has a parent class.</summary>
         public bool HasInheritance => _schema.InheritedTypeSchema != null;
+
+        /// <summary>Gets a value indicating whether the constructor parameters should be sorted.</summary>
+        public bool SortConstructorParameters => _settings.SortConstructorParameters;
+
+        /// <summary>Gets a value indicating whether the properties should have an 'init' part. (default: false).</summary>
+        public bool GenerateInitProperties => _settings.ClassStyle == CSharpClassStyle.CSharpRecord &&
+                                              _settings.GenerateInitProperties;
 
         /// <summary>Gets the base class name.</summary>
         public string BaseClassName => HasInheritance ? _resolver.Resolve(_schema.InheritedTypeSchema, false, string.Empty, false)

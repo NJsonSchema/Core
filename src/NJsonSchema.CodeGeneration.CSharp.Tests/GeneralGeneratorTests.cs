@@ -1620,10 +1620,67 @@ namespace NJsonSchema.CodeGeneration.CSharp.Tests
             Assert.Contains(@"public string Street { get; }", output);
             Assert.DoesNotContain(@"public string Street { get; set; }", output);
 
+            Assert.Contains("public partial class Address", output);
+
             Assert.Contains("public Address(string @city, string @street)", output);
 
             AssertCompile(output);
         }
+
+#if NETCOREAPP3_1_OR_GREATER || NET5_0_OR_GREATER
+        [Fact]
+        public async Task When_csharp_record_no_setter_in_record_and_constructor_provided()
+        {
+            //// Arrange
+            var schema = JsonSchema.FromType<Address>();
+            var data = schema.ToJson();
+            var generator = new CSharpGenerator(schema, new CSharpGeneratorSettings
+            {
+                ClassStyle = CSharpClassStyle.CSharpRecord,
+                SortConstructorParameters = false
+            });
+
+            //// Act
+            var output = generator.GenerateFile("Address");
+
+            //// Assert
+            Assert.Contains(@"public string Street { get; }", output);
+            Assert.DoesNotContain(@"public string Street { get; set; }", output);
+
+            Assert.Contains("public partial record Address", output);
+
+            Assert.Contains("public Address(string @street, string @city)", output);
+
+            AssertCompile(output, new CSharpParseOptions(LanguageVersion.CSharp9));
+        }
+
+        [Fact]
+        public async Task When_csharp_record_init_in_record_and_constructor_provided()
+        {
+            //// Arrange
+            var schema = JsonSchema.FromType<Address>();
+            var data = schema.ToJson();
+            var generator = new CSharpGenerator(schema, new CSharpGeneratorSettings
+            {
+                ClassStyle = CSharpClassStyle.CSharpRecord,
+                SortConstructorParameters = false,
+                GenerateInitProperties = true,
+            });
+
+            //// Act
+            var output = generator.GenerateFile("Address");
+
+            //// Assert
+            Assert.Contains(@"public string Street { get; init; }", output);
+            Assert.DoesNotContain(@"public string Street { get; set; }", output);
+
+            Assert.Contains("public partial record Address", output);
+
+            Assert.Contains("public Address(string @street, string @city)", output);
+
+            AssertCompile(output, new CSharpParseOptions(LanguageVersion.CSharp9));
+        }
+#endif
 
         public abstract class AbstractAddress
         {
@@ -1753,9 +1810,9 @@ namespace NJsonSchema.CodeGeneration.CSharp.Tests
             Assert.Contains("__1 = -1", types.First().Code);
         }
 
-        private static void AssertCompile(string code)
+        private static void AssertCompile(string code, CSharpParseOptions options = null)
         {
-            var syntaxTree = CSharpSyntaxTree.ParseText(code);
+            var syntaxTree = CSharpSyntaxTree.ParseText(code, options);
             var errors = syntaxTree
                 .GetDiagnostics()
                 .Where(_ => _.Severity == DiagnosticSeverity.Error);

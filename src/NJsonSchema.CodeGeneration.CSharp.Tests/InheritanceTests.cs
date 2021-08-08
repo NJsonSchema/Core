@@ -155,6 +155,30 @@ namespace NJsonSchema.CodeGeneration.Tests.CSharp
             Assert.Contains("[JsonInheritanceAttribute(\"PersianCat\", typeof(PersianCat))]", code);
         }
 
+        [Fact]
+        public async Task When_definition_inherits_parameters_from_base_come_first()
+        {
+            //// Arrange
+            var path = GetTestDirectory() + "/References/Car.json";
+
+            //// Act
+            var schema = await JsonSchema.FromFileAsync(path);
+            var generator = new CSharpGenerator(schema, new CSharpGeneratorSettings
+            {
+                ClassStyle = CSharpClassStyle.Record,
+                SortConstructorParameters = false,
+            });
+
+            //// Act
+            var code = generator.GenerateFile();
+
+            //// Assert
+            Assert.Contains("public partial class Car : Vehicle", code);
+            Assert.Contains("Vehicle(string @id)", code);
+            Assert.Contains("Car(string @id, int @wheels)", code);
+            Assert.Contains("base(id)", code);
+        }
+
         private string GetTestDirectory()
         {
             var codeBase = Assembly.GetExecutingAssembly().CodeBase;

@@ -52,6 +52,7 @@ namespace NJsonSchema.CodeGeneration.CSharp
             InlineNamedArrays = false;
             InlineNamedDictionaries = false;
             InlineNamedTuples = true;
+            SortConstructorParameters = true;
         }
 
         /// <summary>Gets or sets the .NET namespace of the generated types (default: MyNamespace).</summary>
@@ -144,5 +145,11 @@ namespace NJsonSchema.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to generate Nullable Reference Type annotations (default: false).</summary>
         public bool GenerateNullableReferenceTypes { get; set; }
+
+        /// <summary>Gets a value indicating whether the constructor parameters should be sorted alphabetically (default: true).</summary>
+        public bool SortConstructorParameters { get; set; }
+
+        /// <summary>Gets a value indicating whether the properties should have an 'init' part. (default: false).</summary>
+        public bool GenerateInitProperties { get; set; }
     }
 }

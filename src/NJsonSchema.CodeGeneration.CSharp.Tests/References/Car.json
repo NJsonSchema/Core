@@ -1,0 +1,16 @@
+{
+    "title": "Car",
+    "type": "object",
+    "description": "This is a car",
+    "allOf": [
+        {
+            "$ref": "Vehicle.json"
+        }
+    ],
+    "properties": {
+        "wheels": {
+            "type": "integer",
+            "description": "The number of wheels on the car"
+        }
+    }
+}
