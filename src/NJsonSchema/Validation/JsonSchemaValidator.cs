@@ -222,7 +222,23 @@ namespace NJsonSchema.Validation
 
             if (isString)
             {
-                var value = token.Type == JTokenType.Date ? (token as JValue).ToString("yyyy-MM-ddTHH:mm:ssK") : token.Value<string>();
+                string value;
+
+                switch (token.Type)
+                {
+                    case JTokenType.Date:
+                        value = (token as JValue).ToString("yyyy-MM-ddTHH:mm:ssK");
+                        break;
+
+                    case JTokenType.Uri:
+                        value = (token as JValue).ToString();
+                        break;
+
+                    default:
+                        value = token.Value<string>();
+                        break;
+                }
+
                 if (value != null)
                 {
                     if (!string.IsNullOrEmpty(schema.Pattern))
