@@ -227,11 +227,11 @@ namespace NJsonSchema.Validation
                 switch (token.Type)
                 {
                     case JTokenType.Date:
-                        value = (token as JValue).ToString("yyyy-MM-ddTHH:mm:ssK");
+                        value = (token as JValue)?.ToString("yyyy-MM-ddTHH:mm:ssK");
                         break;
 
                     case JTokenType.Uri:
-                        value = (token as JValue).ToString();
+                        value = (token as JValue)?.ToString();
                         break;
 
                     default:
