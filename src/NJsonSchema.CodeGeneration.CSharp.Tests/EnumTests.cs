@@ -4,10 +4,14 @@ using NJsonSchema.CodeGeneration.CSharp;
 using NJsonSchema.NewtonsoftJson.Generation;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using VerifyXunit;
 using Xunit;
+
+using static NJsonSchema.CodeGeneration.CSharp.Tests.VerifyHelper;
 
 namespace NJsonSchema.CodeGeneration.Tests.CSharp
 {
+    [UsesVerify]
     public class EnumTests
     {
         [Fact]
@@ -164,6 +168,20 @@ namespace NJsonSchema.CodeGeneration.Tests.CSharp
             //// Assert
             Assert.Contains("[Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]",
                 code);
+        }
+
+        [Fact]
+        public async Task When_StringEnumConverter_is_disabled_attribute_is_not_generated()
+        {
+            //// Arrange
+            var schema = NewtonsoftJsonSchemaGenerator.FromType<MyStringEnumListTest>();
+            var generator = new CSharpGenerator(schema, new CSharpGeneratorSettings { ClassStyle = CSharpClassStyle.Poco, GenerateStringEnumConverterAttributes = false });
+
+            //// Act
+            var output = generator.GenerateFile();
+
+            //// Assert
+            await Verify(output);
         }
 
         public enum SomeEnum

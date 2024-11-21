@@ -43,6 +43,7 @@ namespace NJsonSchema.CodeGeneration.CSharp
 
             RequiredPropertiesMustBeDefined = true;
             GenerateDataAnnotations = true;
+            GenerateStringEnumConverterAttributes = true;
             TypeAccessModifier = "public";
             PropertySetterAccessModifier = string.Empty;
             GenerateJsonMethods = false;
@@ -68,6 +69,9 @@ namespace NJsonSchema.CodeGeneration.CSharp
 
         /// <summary>Gets or sets a value indicating whether to generated data annotation attributes (default: true).</summary>
         public bool GenerateDataAnnotations { get; set; }
+
+        /// <summary>Gets or sets a value indicating whether to add string to enum converter attribute for the property  (default: true).</summary>
+        public bool GenerateStringEnumConverterAttributes { get; set; }
 
         /// <summary>Gets or sets the any type (default: "object").</summary>
         public string AnyType { get; set; }

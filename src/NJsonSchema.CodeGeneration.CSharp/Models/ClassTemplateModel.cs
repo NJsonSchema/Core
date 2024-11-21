@@ -151,6 +151,9 @@ namespace NJsonSchema.CodeGeneration.CSharp.Models
         /// <summary>Gets a value indicating whether to use the DateFormatConverter.</summary>
         public bool UseDateFormatConverter => _settings.DateType.StartsWith("System.DateTime", StringComparison.Ordinal);
 
+        /// <summary>Gets a value indicating whether to use the DateFormatConverter.</summary>
+        public bool UseStringEnumConverter => _settings.GenerateStringEnumConverterAttributes;
+
         /// <summary>Gets or sets the access modifier of generated classes and interfaces.</summary>
         public string TypeAccessModifier => _settings.TypeAccessModifier;
 

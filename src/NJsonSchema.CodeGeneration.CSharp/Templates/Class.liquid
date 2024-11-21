@@ -65,7 +65,7 @@
     // TODO(system.text.json): Add string enum item converter
 {%-   endif -%}
 {%- else -%}
-    [Newtonsoft.Json.JsonProperty("{{ property.Name }}", Required = {{ property.JsonPropertyRequiredCode }}{% if property.IsStringEnumArray %}, ItemConverterType = typeof(Newtonsoft.Json.Converters.StringEnumConverter){% endif %})]
+    [Newtonsoft.Json.JsonProperty("{{ property.Name }}", Required = {{ property.JsonPropertyRequiredCode }}{% if property.IsStringEnumArray and UseStringEnumConverter %}, ItemConverterType = typeof(Newtonsoft.Json.Converters.StringEnumConverter){% endif %})]
 {%- endif -%}
 {%-   if property.RenderRequiredAttribute -%}
     [System.ComponentModel.DataAnnotations.Required{% if property.AllowEmptyStrings %}(AllowEmptyStrings = true){% endif %}]
@@ -85,7 +85,7 @@
 {%-   if property.RenderRegularExpressionAttribute -%}
     [System.ComponentModel.DataAnnotations.RegularExpression(@"{{ property.RegularExpressionValue }}")]
 {%-   endif -%}
-{%-   if property.IsStringEnum -%}
+{%-   if property.IsStringEnum and UseStringEnumConverter -%}
 {%-     if UseSystemTextJson -%}
     [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
 {%-     else -%}
