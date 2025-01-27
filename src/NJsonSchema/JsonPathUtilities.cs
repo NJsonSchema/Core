@@ -60,8 +60,10 @@ namespace NJsonSchema
 
             if (mappings.Any(p => p.Value == null))
             {
+                var errorItems = mappings.Where(p => p.Value == null).Select(x => x.Key.GetType().FullName);
                 throw new InvalidOperationException("Could not find the JSON path of a referenced schema: " +
-                                                    "Manually referenced schemas must be added to the " +
+                                                     string.Join(",", errorItems) +
+                                                    ". Manually referenced schemas must be added to the " +
                                                     "'Definitions' of a parent schema.");
             }
 
