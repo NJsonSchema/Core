@@ -74,6 +74,12 @@ namespace NJsonSchema.CodeGeneration.CSharp
 
             var markAsNullableType = Settings.GenerateNullableReferenceTypes && isNullable;
 
+            if (schema.ExtensionData != null &&
+                schema.ExtensionData.TryGetValue("x-cSharpExistingType", out var cSharpExistingType))
+            {
+                return cSharpExistingType + (markAsNullableType ? "?" : "");
+            }
+
             if (schema.ActualTypeSchema.IsAnyType &&
                 schema.ActualDiscriminator == null &&
                 schema.InheritedSchema == null && // not in inheritance hierarchy
