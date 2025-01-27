@@ -11,5 +11,20 @@
         "SubAnimal": {
             "type": "object"
         }
+    },
+    "components": {
+        "schemas": {
+            "SubAnimal2": {
+                "type": "object",
+                "properties": {
+                    "sub": {
+                        "$ref": "#/components/schemas/SubAnimal3"
+                    }
+                }
+            },
+            "SubAnimal3": {
+                "type": "object"
+            }
+        }
     }
 }

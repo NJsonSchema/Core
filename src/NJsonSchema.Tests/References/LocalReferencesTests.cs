@@ -99,6 +99,20 @@ namespace NJsonSchema.Tests.References
         }
 
         [Fact]
+        public async Task When_document_has_indirect_external_ref_to_a_schema_with_sibling_then_it_is_loaded()
+        {
+            //// Arrange
+            var path = GetTestDirectory() + "/References/LocalReferencesTests/schema_with_indirect_subreference_sibling.json";
+
+            //// Act
+            var schema = await JsonSchema.FromFileAsync(path);
+            var json = schema.ToJson();
+
+            //// Assert
+            // TODO
+        }
+
+        [Fact]
         public async Task When_reference_is_registered_in_custom_resolver_it_should_not_try_to_access_file()
         {
             // Arrange
