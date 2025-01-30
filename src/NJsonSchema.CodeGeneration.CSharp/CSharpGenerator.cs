@@ -113,17 +113,16 @@ namespace NJsonSchema.CodeGeneration.CSharp
         {
             var model = new ClassTemplateModel(typeName, Settings, _resolver, schema, RootObject);
 
-            RenamePropertyWithSameNameAsClass(typeName, model.Properties);
+            RenamePropertyWithSameNameAsClass(typeName, model._properties);
 
             var template = Settings.TemplateFactory.CreateTemplate("CSharp", "Class", model);
             return new CodeArtifact(typeName, model.BaseClassName, CodeArtifactType.Class, CodeArtifactLanguage.CSharp, CodeArtifactCategory.Contract, template);
         }
 
-        private static void RenamePropertyWithSameNameAsClass(string typeName, IEnumerable<PropertyModel> properties)
+        private static void RenamePropertyWithSameNameAsClass(string typeName, List<PropertyModel> properties)
         {
-            var propertyModels = properties as PropertyModel[] ?? properties.ToArray();
             PropertyModel? propertyWithSameNameAsClass = null;
-            foreach (var p in propertyModels)
+            foreach (var p in properties)
             {
                 if (p.PropertyName == typeName)
                 {
@@ -136,7 +135,7 @@ namespace NJsonSchema.CodeGeneration.CSharp
             {
                 var number = 1;
                 var candidate = typeName + number;
-                while (propertyModels.Any(p => p.PropertyName == candidate))
+                while (properties.Exists(p => p.PropertyName == candidate))
                 {
                     number++;
                 }

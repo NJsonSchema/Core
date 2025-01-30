@@ -135,7 +135,7 @@
 {%-       else -%}
     [Newtonsoft.Json.JsonExtensionData]
 {%-       endif -%}
-    public System.Collections.Generic.IDictionary<string, {{ AdditionalPropertiesType }}> AdditionalProperties
+    public System.Collections.Generic.IDictionary<string, {{ AdditionalPropertiesType }}> {{ AdditionalPropertiesPropertyName }}
     {
         get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, {{ AdditionalPropertiesType }}>()); }
         {{PropertySetterAccessModifier}}set { _additionalProperties = value; }

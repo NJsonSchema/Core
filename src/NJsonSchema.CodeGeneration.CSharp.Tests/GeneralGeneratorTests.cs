@@ -1895,6 +1895,35 @@ namespace NJsonSchema.CodeGeneration.CSharp.Tests
 
             // Assert
             Assert.Contains("JsonExtensionData", output);
+            Assert.Contains("IDictionary<string, object> AdditionalProperties\n", output);
+        }
+
+
+        public class ClassWithAdditionalProperties
+        {
+            public string AdditionalProperties { get; set; }
+
+            [JsonExtensionData]
+            public IDictionary<string, object> ExtensionData { get; set; }
+        }
+
+        [Fact]
+        public async Task When_schema_has_AdditionProperties_schema_and_type_has_member_with_same_name()
+        {
+            //// Arrange
+            var schema = NewtonsoftJsonSchemaGenerator.FromType<ClassWithAdditionalProperties>(new NewtonsoftJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 });
+            var json = schema.ToJson();
+
+            var generator = new CSharpGenerator(schema, new CSharpGeneratorSettings
+            {
+                ClassStyle = CSharpClassStyle.Poco
+            });
+
+            //// Act
+            var output = generator.GenerateFile("PersonAddress");
+
+            //// Assert
+            Assert.Contains("IDictionary<string, object> AdditionalProperties2\n", output);
         }
 
         [Fact]
