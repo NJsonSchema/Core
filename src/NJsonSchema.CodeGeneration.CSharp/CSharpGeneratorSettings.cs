@@ -167,5 +167,11 @@ namespace NJsonSchema.CodeGeneration.CSharp
 
         /// <summary>Generate C# 9.0 record types instead of record-like classes.</summary>
         public bool GenerateNativeRecords { get; set; }
+
+        /// <summary>
+        /// The prefix appended when generating a field based on the property name. Default is "_";
+        /// </summary>
+        public string FieldNamePrefix { get; set; } = "_";
+        
     }
 }

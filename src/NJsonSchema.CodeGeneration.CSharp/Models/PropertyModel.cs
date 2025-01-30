@@ -8,6 +8,7 @@
 
 using System.Globalization;
 using NJsonSchema.CodeGeneration.Models;
+using System.Runtime;
 
 namespace NJsonSchema.CodeGeneration.CSharp.Models
 {
@@ -48,7 +49,7 @@ namespace NJsonSchema.CodeGeneration.CSharp.Models
         public string? Description => _property.Description;
 
         /// <summary>Gets the name of the field.</summary>
-        public string FieldName => "_" + ConversionUtilities.ConvertToLowerCamelCase(PropertyName, true);
+        public string FieldName => _settings.FieldNamePrefix + ConversionUtilities.ConvertToLowerCamelCase(PropertyName, true);
 
         /// <summary>Gets a value indicating whether the property is nullable.</summary>
         public override bool IsNullable => (_settings.GenerateOptionalPropertiesAsNullable && !_property.IsRequired) || base.IsNullable;
