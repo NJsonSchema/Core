@@ -5,7 +5,7 @@
 {%- assign parentProperties = "" | empty %}
 {% endif %}
 
-{%- assign sortedProperties = AllProperties | sort: "Name" %}
+{%- assign sortedProperties = AllProperties | sort: "RenderOptionalCtorArgument", "Name" %}
 {%- assign sortedParentProperties = parentProperties | sort: "Name" %}
 
 {%- if UseSystemTextJson %}
@@ -13,7 +13,7 @@
 {%- else %}
 [Newtonsoft.Json.JsonConstructor]
 {%- endif %}
-{% if IsAbstract %}protected{% else %}public{% endif %} {{ClassName}}({% for property in sortedProperties %}{%- if skipComma %}{%- assign skipComma = false %}{% else %}, {% endif %}{{ property.Type }} @{{ property.Name | lowercamelcase }}{% endfor %})
+{% if IsAbstract %}protected{% else %}public{% endif %} {{ClassName}}({% for property in sortedProperties %}{%- if skipComma %}{%- assign skipComma = false %}{% else %}, {% endif %}{{ property.Type }} @{{ property.Name | lowercamelcase }}{% if property.RenderOptionalCtorArgument %} = null{% endif %}{% endfor %})
 {%- assign skipComma = true %}
 {%- if HasInheritance %}
     : base({%- for property in sortedParentProperties %}{%- if skipComma %}{%- assign skipComma = false %}{% else %}, {% endif %}{{ property.Name | lowercamelcase }}{%- endfor %})
