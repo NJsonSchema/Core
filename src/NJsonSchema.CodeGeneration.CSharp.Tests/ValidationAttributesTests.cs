@@ -188,7 +188,7 @@ namespace NJsonSchema.CodeGeneration.CSharp.Tests
             Assert.Null(schema.Properties["value"].Minimum);
             Assert.Equal(10, schema.Properties["value"].ActualSchema.Minimum);
 
-            Assert.Contains("[System.ComponentModel.DataAnnotations.Range(10D, double.MaxValue)]\n" +
+            Assert.Contains("[System.ComponentModel.DataAnnotations.Range(10L, long.MaxValue)]\n" +
                             "        public long Value { get; set; }\n", code);
         }
 
@@ -228,7 +228,7 @@ namespace NJsonSchema.CodeGeneration.CSharp.Tests
             Assert.Equal(10000000000m, schema.Properties["value"].ActualSchema.Maximum);
 
             // expect the integer to be converted to an int64
-            Assert.Contains("[System.ComponentModel.DataAnnotations.Range(-10000000000D, 10000000000D)]\n" +
+            Assert.Contains("[System.ComponentModel.DataAnnotations.Range(-10000000000L, 10000000000L)]\n" +
                             "        public long Value { get; set; }\n", code);
         }
 

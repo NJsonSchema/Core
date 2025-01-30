@@ -95,6 +95,8 @@ namespace NJsonSchema.CodeGeneration.CSharp
                     return Convert.ToInt32(value, CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture);
                 case JsonFormatStrings.Long:
                     return Convert.ToInt64(value, CultureInfo.InvariantCulture) + "L";
+                case JsonFormatStrings.ULong:
+                    return Convert.ToUInt64(value, CultureInfo.InvariantCulture) + "UL";
                 case JsonFormatStrings.Double:
                     return ConvertNumberToString(value) + "D";
                 case JsonFormatStrings.Float:
