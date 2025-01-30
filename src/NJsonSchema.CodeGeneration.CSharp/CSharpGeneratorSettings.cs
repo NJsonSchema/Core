@@ -66,6 +66,12 @@ namespace NJsonSchema.CodeGeneration.CSharp
         /// (sets Required.Always when the property is required) (default: true).</summary>
         public bool RequiredPropertiesMustBeDefined { get; set; }
 
+        /// <summary>Gets or sets a value indicating whether a required property should be treated as nullable by 
+        /// default (if the property is not explicitly market as nullable: false)
+        /// (sets Required.Default when the property is not required and not explicitly marked as nullable: false).
+        /// </summary>
+        public bool DefaultNonRequiredToNullable { get; set; }
+
         /// <summary>Gets or sets a value indicating whether to generated data annotation attributes (default: true).</summary>
         public bool GenerateDataAnnotations { get; set; }
 

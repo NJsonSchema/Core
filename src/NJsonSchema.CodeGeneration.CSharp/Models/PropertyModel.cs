@@ -68,6 +68,17 @@ namespace NJsonSchema.CodeGeneration.CSharp.Models
         {
             get
             {
+                if (_settings.DefaultNonRequiredToNullable && !_property.IsRequired)
+                {
+                    if (_property.IsNullableRaw == false)
+                    {
+                        return "Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore";
+                    }
+                    else
+                    {
+                        return "Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore";
+                    }
+                }
                 if (_settings.RequiredPropertiesMustBeDefined && _property.IsRequired)
                 {
                     if (!IsNullable)
