@@ -103,7 +103,7 @@
     [System.Obsolete{% if property.HasDeprecatedMessage %}({{ property.DeprecatedMessage | literal }}){% endif %}]
 {%-   endif -%}
     {%- template Class.Property.Annotations -%}
-    public {{ property.Type }} {{ property.PropertyName }}{% if RenderInpc == false and RenderPrism == false %} { get; {% if property.HasSetter and RenderRecord == false %}set; {% elsif RenderRecord and GenerateNativeRecords %}init; {% endif %}}{% if property.HasDefaultValue and RenderRecord == false %} = {{ property.DefaultValue }};{% elsif GenerateNullableReferenceTypes and RenderRecord == false %} = default!;{% endif %}
+    public {% if UseRequiredKeyword and property.IsRequired %}required {% endif %}{{ property.Type }} {{ property.PropertyName }}{% if RenderInpc == false and RenderPrism == false %} { get; {% if property.HasSetter and RenderRecord == false %}set; {% elsif RenderRecord and GenerateNativeRecords %}init; {% endif %}}{% if property.HasDefaultValue and RenderRecord == false %} = {{ property.DefaultValue }};{% elsif GenerateNullableReferenceTypes and RenderRecord == false %} = default!;{% endif %}
 {% else %}
     {
         get { return {{ property.FieldName }}; }

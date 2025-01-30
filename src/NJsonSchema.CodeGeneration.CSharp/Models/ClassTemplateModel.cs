@@ -151,6 +151,9 @@ namespace NJsonSchema.CodeGeneration.CSharp.Models
         /// <summary>Gets or sets the access modifier of generated classes and interfaces.</summary>
         public string TypeAccessModifier => _settings.TypeAccessModifier;
 
+        /// <summary>Gets a value indicating whether to use the C# 11 "required" keyword.</summary>
+        public bool UseRequiredKeyword => _settings.UseRequiredKeyword;
+
         /// <summary>Gets the access modifier of property setters (default: '').</summary>
         public string PropertySetterAccessModifier => !string.IsNullOrEmpty(_settings.PropertySetterAccessModifier) ? _settings.PropertySetterAccessModifier + " " : "";
 
