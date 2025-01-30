@@ -60,6 +60,7 @@ namespace NJsonSchema.CodeGeneration.TypeScript.Models
                         entries.Add(new EnumerationItemModel
                         {
                             Name = _settings.EnumNameGenerator.Generate(i, name, value, _schema),
+                            OriginalName = name,
                             Value = _schema.Type.IsInteger() ? value.ToString() : "\"" + value + "\"",
                         });
                     }
