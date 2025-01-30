@@ -153,6 +153,33 @@ namespace NJsonSchema.CodeGeneration.CSharp.Tests
         }
 
         [Fact]
+        public async Task When_property_name_is_created_by_custom_fun_then_parameter_name_is_correct_for_record()
+        {
+            //// Arrange
+            var schema = NewtonsoftJsonSchemaGenerator.FromType<Address>();
+            var schemaData = schema.ToJson();
+            var settings = new CSharpGeneratorSettings 
+            {
+                ClassStyle = CSharpClassStyle.Record,
+                PropertyNameGenerator = new CustomPropertyNameGenerator(),
+            };
+            var generator = new CSharpGenerator(schema, settings);
+
+            //// Act
+            var output = generator.GenerateFile("Address");
+
+            //// Assert
+            Assert.DoesNotContain(@"public string Street { get; }", output);
+            Assert.Contains(@"public string MyCustomStreet { get; }", output);
+            Assert.Contains(@"this.MyCustomStreet = @myCustomStreet;", output);
+
+            Assert.DoesNotContain(@"public Address(string @city, string @street)", output);
+            Assert.Contains(@"public Address(string @myCustomCity, string @myCustomStreet)", output);
+
+            AssertCompile(output);
+        }
+
+        [Fact]
         public async Task When_schema_contains_ref_to_definition_that_refs_another_definition_then_result_should_contain_correct_target_ref_type()
         {
             // Arrange
@@ -1826,7 +1853,7 @@ namespace NJsonSchema.CodeGeneration.CSharp.Tests
             var data = schema.ToJson();
             var generator = new CSharpGenerator(schema, new CSharpGeneratorSettings
             {
-                ClassStyle = CSharpClassStyle.Record
+                ClassStyle = CSharpClassStyle.Record,
             });
 
             // Act

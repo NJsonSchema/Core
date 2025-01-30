@@ -13,13 +13,13 @@
 {%- else %}
 [Newtonsoft.Json.JsonConstructor]
 {%- endif %}
-{% if IsAbstract %}protected{% else %}public{% endif %} {{ClassName}}({% for property in sortedProperties %}{%- if skipComma %}{%- assign skipComma = false %}{% else %}, {% endif %}{{ property.Type }} @{{ property.Name | lowercamelcase }}{% endfor %})
+{% if IsAbstract %}protected{% else %}public{% endif %} {{ClassName}}({% for property in sortedProperties %}{%- if skipComma %}{%- assign skipComma = false %}{% else %}, {% endif %}{{ property.Type }} @{{ property.PropertyName | lowercamelcase }}{% endfor %})
 {%- assign skipComma = true %}
 {%- if HasInheritance %}
-    : base({%- for property in sortedParentProperties %}{%- if skipComma %}{%- assign skipComma = false %}{% else %}, {% endif %}{{ property.Name | lowercamelcase }}{%- endfor %})
+    : base({%- for property in sortedParentProperties %}{%- if skipComma %}{%- assign skipComma = false %}{% else %}, {% endif %}{{ property.PropertyName | lowercamelcase }}{%- endfor %})
 {%- endif %}
 {
 {%- for property in Properties %}
-    this.{{property.PropertyName}} = @{{property.Name | lowercamelcase}};
+    this.{{property.PropertyName}} = @{{property.PropertyName | lowercamelcase}};
 {%- endfor %}
 }
