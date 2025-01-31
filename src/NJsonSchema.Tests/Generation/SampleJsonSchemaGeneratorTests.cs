@@ -10,6 +10,7 @@ namespace NJsonSchema.Tests.Generation
             // Arrange
             var data = @"{
                 int: 1, 
+                float: 340282346638528859811704183484516925440.0,
                 str: ""abc"", 
                 bool: true, 
                 date: ""2012-07-19"", 
@@ -26,6 +27,7 @@ namespace NJsonSchema.Tests.Generation
             Assert.Equal(JsonObjectType.Integer, schema.Properties["int"].Type);
             Assert.Equal(JsonObjectType.String, schema.Properties["str"].Type);
             Assert.Equal(JsonObjectType.Boolean, schema.Properties["bool"].Type);
+            Assert.Equal(JsonObjectType.Number, schema.Properties["float"].Type);
 
             Assert.Equal(JsonObjectType.String, schema.Properties["date"].Type);
             Assert.Equal(JsonFormatStrings.Date, schema.Properties["date"].Format);
@@ -35,6 +37,36 @@ namespace NJsonSchema.Tests.Generation
 
             Assert.Equal(JsonObjectType.String, schema.Properties["timespan"].Type);
             Assert.Equal(JsonFormatStrings.Duration, schema.Properties["timespan"].Format);
+        }
+
+        [Fact]
+        public void OpenApi3Properties()
+        {
+            // Arrange
+            var data = @"{
+                int: 12345, 
+                long: 1736347656630,
+                float: 340282346638528859811704183484516925440.0,
+                double: 340282346638528859811704183484516925440123456.0,
+            }";
+            var generator = new SampleJsonSchemaGenerator(new SampleJsonSchemaGeneratorSettings {SchemaType = SchemaType.OpenApi3});
+
+            // Act
+            var schema = generator.Generate(data);
+            var json = schema.ToJson();
+
+            // Assert
+            Assert.Equal(JsonObjectType.Integer, schema.Properties["int"].Type);
+            Assert.Equal(JsonFormatStrings.Integer, schema.Properties["int"].Format);
+
+            Assert.Equal(JsonObjectType.Integer, schema.Properties["long"].Type);
+            Assert.Equal(JsonFormatStrings.Long, schema.Properties["long"].Format);
+
+            Assert.Equal(JsonObjectType.Number, schema.Properties["float"].Type);
+            Assert.Equal(JsonFormatStrings.Float, schema.Properties["float"].Format);
+
+            Assert.Equal(JsonObjectType.Number, schema.Properties["double"].Type);
+            Assert.Equal(JsonFormatStrings.Double, schema.Properties["double"].Format);
         }
 
         [Fact]

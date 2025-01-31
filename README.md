@@ -421,6 +421,117 @@ export interface IPerson {
 }
 ```
 
+## NJsonSchema.SampleJsonSchemaGenerator usage
+
+The `NJsonSchema.SampleJsonSchemaGenerator` can be used to generate a JSON Schema from sample JSON data:
+
+### JSON Schema Specification
+
+By default, the `NJsonSchema.SampleJsonSchemaGenerator` generates a JSON Schema based on the JSON Schema specification. See: [JSON Schema Specification](https://json-schema.org/specification) 
+
+```csharp
+var generator = new SampleJsonSchemaGenerator(new SampleJsonSchemaGeneratorSettings());
+
+var schema = generator.Generate("{...}");
+```
+
+**Input:**
+
+```json
+{
+  "int": 1,
+  "float": 340282346638528859811704183484516925440.0,
+  "str": "abc",
+  "bool": true,
+  "date": "2012-07-19",
+  "datetime": "2012-07-19 10:11:11",
+  "timespan": "10:11:11"
+}
+```
+
+**Output:**
+
+```json
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "int": {
+      "type": "integer"
+    },
+    "float": {
+      "type": "number"
+    },
+    "str": {
+      "type": "string"
+    },
+    "bool": {
+      "type": "boolean"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "datetime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "timespan": {
+      "type": "string",
+      "format": "duration"
+    }
+  }
+}
+```
+
+### OpenApi Specification
+
+To generate a JSON Schema for OpenApi, provide the `SchemaType.OpenApi3` in the settings. See: [OpenApi Specification](https://swagger.io/specification/)
+
+```csharp
+var generator = new SampleJsonSchemaGenerator(new SampleJsonSchemaGeneratorSettings { SchemaType = SchemaType.OpenApi3 });
+
+var schema = generator.Generate("{...}");
+```
+
+**Input:**
+
+```json
+{
+  "int": 12345,
+  "long": 1736347656630,
+  "float": 340282346638528859811704183484516925440.0,
+  "double": 340282346638528859811704183484516925440123456.0,
+}
+```
+
+**Output:**
+
+```json
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "int": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "long": {
+      "type": "integer",
+      "format": "int64"
+    },
+    "float": {
+      "type": "number",
+      "format": "float"
+    },
+    "double": {
+      "type": "number",
+      "format": "double"
+    }
+  }
+}
+```
+
 ## Final notes
 
 Applications which use the library: 
