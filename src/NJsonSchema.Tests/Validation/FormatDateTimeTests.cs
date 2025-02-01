@@ -107,5 +107,22 @@ namespace NJsonSchema.Tests.Validation
             // Assert
             Assert.Empty(errors);
         }
+        
+        [Fact]
+        public void When_format_date_time_with_utc_date_only_then_validation_succeeds()
+        {
+            // Arrange
+            var schema = new JsonSchema();
+            schema.Type = JsonObjectType.String;
+            schema.Format = JsonFormatStrings.DateTime;
+
+            var token = new JValue("2024-01-31Z");
+
+            // Act
+            var errors = schema.Validate(token);
+
+            // Assert
+            Assert.Empty(errors);
+        }
     }
 }

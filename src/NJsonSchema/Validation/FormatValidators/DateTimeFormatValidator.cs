@@ -26,7 +26,7 @@ namespace NJsonSchema.Validation.FormatValidators
             "yyyy-MM-dd'T'HH",
             "yyyy-MM-dd' 'HH",
             "yyyy-MM-dd",
-            "yyyy-MM-dd",
+            "yyyy-MM-dd'Z'",
             "yyyyMMdd",
             "yyyy-MM",
             "yyyy"
