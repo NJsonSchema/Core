@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------
 
 using System.Collections;
+using System.Net;
 using System.Text.RegularExpressions;
 using Namotion.Reflection;
 using Newtonsoft.Json;
@@ -82,7 +83,8 @@ namespace NJsonSchema
 
         private static string UnescapeReferenceSegment(string segment)
         {
-            return segment.Replace("~1", "/").Replace("~0", "~");
+            var urlDecoded = WebUtility.UrlDecode(segment);
+            return urlDecoded.Replace("~1", "/").Replace("~0", "~");
         }
 
         /// <summary>Resolves a document reference.</summary>

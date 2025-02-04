@@ -180,6 +180,34 @@ namespace NJsonSchema.Tests.References
             Assert.Equal(JsonObjectType.Integer, schema.ActualTypeSchema.Type);
         }
 
+        [Fact]
+        public async Task When_percent_encoded_reference_is_passed_then_it_is_resolved_to_decoded_character()
+        {
+            // Arrange
+            var json = @"{
+  ""type"": ""object"",
+  ""properties"": {
+    ""length"": {
+      ""$ref"": ""#/definitions/%C2%B5m""
+    }
+  },
+  ""additionalProperties"": false,
+	""definitions"": {
+		""µm"": {
+              ""type"": ""string""
+            }
+        }
+}";
+
+            // Act
+            var schema = await JsonSchema.FromJsonAsync(json);
+
+            // Assert
+            Assert.Equal(JsonObjectType.String, schema.Properties["length"].ActualTypeSchema.Type); ;
+        }
+
+
+
         private string GetTestDirectory()
         {
             var codeBase = Assembly.GetExecutingAssembly().CodeBase.Replace("#", "%23");
